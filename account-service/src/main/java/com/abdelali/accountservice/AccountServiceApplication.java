@@ -1,5 +1,6 @@
 package com.abdelali.accountservice;
 
+import com.abdelali.accountservice.clients.CustomerRestClient;
 import com.abdelali.accountservice.entities.BankAccount;
 import com.abdelali.accountservice.enums.AccountType;
 import com.abdelali.accountservice.repository.BankAccountRepository;
@@ -21,35 +22,29 @@ public class AccountServiceApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(BankAccountRepository accountRepository){
+	CommandLineRunner commandLineRunner(BankAccountRepository accountRepository, CustomerRestClient customerRestClient){
 		return args -> {
+			//Créer deux comptes pour chaque Customer
+			customerRestClient.allCustomers().forEach(c->{
 			BankAccount bankAccount1 = BankAccount.builder()
 					.accountId(UUID.randomUUID().toString())
 					.currency("MAD")
-					.balance(98000)
+					.balance(Math.random()*98000)
 					.createdAt(LocalDate.now())
 					.type(AccountType.CURRENT_ACCOUNT)
-					.customerId(Long.valueOf(1))
+					.customerId(c.getId())
 					.build();
 			BankAccount bankAccount2 = BankAccount.builder()
 					.accountId(UUID.randomUUID().toString())
 					.currency("MAD")
-					.balance(56466)
+					.balance(Math.random()*8000)
 					.createdAt(LocalDate.now())
 					.type(AccountType.SAVING_ACCOUNT)
-					.customerId(Long.valueOf(2))
-					.build();
-			BankAccount bankAccount3 = BankAccount.builder()
-					.accountId(UUID.randomUUID().toString())
-					.currency("EUR")
-					.balance(56466)
-					.createdAt(LocalDate.now())
-					.type(AccountType.SAVING_ACCOUNT)
-					.customerId(Long.valueOf(3))
+					.customerId(c.getId())
 					.build();
 			accountRepository.save(bankAccount1);
 			accountRepository.save(bankAccount2);
-			accountRepository.save(bankAccount3);
+			});
 		};
 	}
 
