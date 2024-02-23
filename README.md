@@ -1,6 +1,13 @@
 # banck-account-app
 Développement d'une app microservices pour entrainement
 
+### Ordre de démmarage des MS :
+1. Discovery service
+2. Config service
+2. Customer service
+3. Account service
+4. Gateway service
+
 ### Swagger
 On utilise Swagger pour la documentation des endpoints (api) des MS
 par exemple :  
@@ -29,3 +36,6 @@ MS ACCOUNT-SERVICE :
 MS CUSTOMER-SERVICE :   
 
 ![img_4.png](images/img_4.png)
+
+### Config service (Spring Cloud Config)
+
